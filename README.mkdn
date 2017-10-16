@@ -1,0 +1,76 @@
+crowdin_sync.py
+==================
+
+Introduction
+------------
+This script is forked and modified from LineageOS and used to synchronize AICP translations with Crowdin. Also, it can handle
+automatic commiting to Gerrit and pushing/downloading to/from Crowdin.
+
+Prerequisites
+-------------
+1. The (depreciated) Ruby variant of crowdin-cli >= 0.5.2 (see: https://github.com/crowdin/crowdin-cli) is required for this to work.
+   The following commands will install Ruby and the crowdin-cli version on your system:
+
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby
+    source /home/your_username/.rvm/scripts/rvm # Add this to your .bashrc file for further usage!
+    rvm all do gem install crowdin-cli
+
+2. python-git is used for Git integration and must be installed (also see: http://gitpython.readthedocs.io/en/stable/intro.html).
+
+3. Copy /config/<AICP_version>_extra_packages.xml to .repo/local_manifests of each <AICP_version> tree.
+   This makes sure you will sync all the extra packages not included in the main manifest.
+   Please remember that you should comment out the packages you already have in your
+   local aicp_manifest.xml file.
+
+Executing
+---------
+Export the needed environment variables to set the API keys and the base path.
+Base path should contain all AICP trees in subfolders, named after AICP branches.
+
+Example:
+
+/home/username/aicp
+                |
+                -- stable
+                |
+                -- n7.1
+                |
+                -- o8.0
+
+NOTE: Syncing stable trees requires an additional environment variable plus the 'stable'
+subfolder under the base path (as shown above), due to crowdin API limitations.
+As AICP has currently no stable branch, this setting should/could not be used.
+Envoiroment variables to export:
+
+    export AICP_CROWDIN_API_KEY=aicp_api_key
+    export AICP_CROWDIN_BASE_PATH=your_base_path
+    export AICP_CROWDIN_STABLE_BASE_PATH=your_stable_base_path
+
+Example:
+
+    export AICP_CROWDIN_API_KEY=9876543210ad4929df
+    export AICP_CROWDIN_BASE_PATH=/home/username/aicp
+    export AICP_CROWDIN_STABLE_BASE_PATH=/home/username/aicp/stable
+
+Execute:
+(the python script crowdin_sync.py should be copied into the base
+ folder structure, e.g. /home/username/aicp)
+
+    ./crowdin_sync.py --username your_gerrit_username --branch AICP_version [--upload-sources] [--upload-translations] [--download]
+
+Bugs
+----
+ - When committing fails, the reason of it cannot be determined. Often this is just when there
+   are no new translations, so the script will not exit when this happens!
+
+Submitting changes
+------------------
+This repository is preconfigured to use the git-review plugin.
+More information can be found at:
+https://www.mediawiki.org/wiki/Gerrit/git-review
+
+You can upload your change to Gerrit with commands like these:
+
+    git add *
+    git commit
+    git review
