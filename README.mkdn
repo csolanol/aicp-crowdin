@@ -12,7 +12,9 @@ Prerequisites
    The following commands will install Ruby and the crowdin-cli version on your system:
 
     \curl -sSL https://get.rvm.io | bash -s stable --ruby
+
     source /home/your_username/.rvm/scripts/rvm # Add this to your .bashrc file for further usage!
+
     rvm all do gem install crowdin-cli
 
 2. python-git is used for Git integration and must be installed (also see: http://gitpython.readthedocs.io/en/stable/intro.html).
@@ -29,32 +31,28 @@ Base path should contain all AICP trees in subfolders, named after AICP branches
 
 Example:
 
-/home/username/aicp
-                |
-                -- stable
-                |
-                -- n7.1
-                |
-                -- o8.0
+/home/username/aicp/stable
+/home/username/aicp/n7.1
+/home/username/aicp/o8.0
 
 NOTE: Syncing stable trees requires an additional environment variable plus the 'stable'
 subfolder under the base path (as shown above), due to crowdin API limitations.
 As AICP has currently no stable branch, this setting should/could not be used.
-Envoiroment variables to export:
+Enviroment variables to export:
 
     export AICP_CROWDIN_API_KEY=aicp_api_key
     export AICP_CROWDIN_BASE_PATH=your_base_path
-    export AICP_CROWDIN_STABLE_BASE_PATH=your_stable_base_path
+    #export AICP_CROWDIN_STABLE_BASE_PATH=your_stable_base_path
 
 Example:
 
     export AICP_CROWDIN_API_KEY=9876543210ad4929df
-    export AICP_CROWDIN_BASE_PATH=/home/username/aicp
-    export AICP_CROWDIN_STABLE_BASE_PATH=/home/username/aicp/stable
+    export AICP_CROWDIN_BASE_PATH=~/aicp
+    #export AICP_CROWDIN_STABLE_BASE_PATH=~/aicp/stable
 
 Execute:
-(the python script crowdin_sync.py should be copied into the base
- folder structure, e.g. /home/username/aicp)
+(the python script crowdin_sync.py and the *.yaml config files should be copied into the base
+folder structure, e.g. /home/username/aicp)
 
     ./crowdin_sync.py --username your_gerrit_username --branch AICP_version [--upload-sources] [--upload-translations] [--download]
 
