@@ -1,4 +1,4 @@
-# n7.1.yml
+# o8.0.yml
 #
 # Crowdin configuration file for AICP
 #
@@ -157,43 +157,13 @@ files:
     translation: '/%original_path%-%android_code%/%original_file_name%'
     languages_mapping: *anchor
 
-  # CMParts
-  -
-    source:      '/packages/apps/CMParts/res/values/aicp_strings.xml'
-    translation: '/%original_path%-%android_code%/%original_file_name%'
-    languages_mapping: *anchor
-
-  # Dialer
-  -
-    source:      '/packages/apps/Dialer/res/values/aicp_strings.xml'
-    translation: '/%original_path%-%android_code%/%original_file_name%'
-    languages_mapping: *anchor
-
-  # PackageInstaller
-  -
-    source:      '/packages/apps/PackageInstaller/res/values/strings.xml'
-    translation: '/%original_path%-%android_code%/%original_file_name%'
-    languages_mapping: *anchor
-
   # Settings
   -
     source:      '/packages/apps/Settings/res/values/aicp_strings.xml'
     translation: '/%original_path%-%android_code%/%original_file_name%'
     languages_mapping: *anchor
 
-  # UnifiedEmail
-  -
-    source:      '/packages/apps/UnifiedEmail/res/values/aicp_strings.xml'
-    translation: '/%original_path%-%android_code%/%original_file_name%'
-    languages_mapping: *anchor
-
-# Providers
-
   # DataUsageProvider
-  -
-    source:      '/packages/providers/MediaProvider/res/values/aicp_strings.xml'
-    translation: '/%original_path%-%android_code%/%original_file_name%'
-    languages_mapping: *anchor
 
 # Services
 
@@ -207,8 +177,3 @@ files:
     translation: '/%original_path%-%android_code%/%original_file_name%'
     languages_mapping: *anchor
 
-  # sony huashan devicesettings
-  -
-    source:      '/device/sony/huashan/devicesettings/res/values/strings.xml'
-    translation: '/%original_path%-%android_code%/%original_file_name%'
-    languages_mapping: *anchor
