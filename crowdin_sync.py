@@ -361,11 +361,6 @@ def upload_sources_crowdin(branch, config):
                    '--config=%s/config/%s.yaml' % (_DIR, branch),
                    'upload', 'sources', '--branch=%s' % branch])
 
-        print('\nUploading GZOSP sources to Crowdin (AOSP supported languages)')
-        check_run(['java', '-jar', '/usr/local/bin/crowdin-cli.jar',
-                   '--config=%s/config/%s_gzosp.yaml' % (_DIR, branch),
-                   'upload', 'sources', '--branch=%s' % branch])
-
 
 def upload_translations_crowdin(branch, config):
     if config:
@@ -384,15 +379,6 @@ def upload_translations_crowdin(branch, config):
                    '--no-import-duplicates', '--import-eq-suggestions',
                    '--auto-approve-imported'])
 
-        print('\nUploading GZOSP translations to Crowdin '
-              '(AOSP supported languages)')
-        check_run(['java', '-jar', '/usr/local/bin/crowdin-cli.jar',
-                   '--config=%s/config/%s_gzosp.yaml' % (_DIR, branch),
-                   'upload', 'translations', '--branch=%s' % branch,
-                   '--no-import-duplicates', '--import-eq-suggestions',
-                   '--auto-approve-imported'])
-
-
 def local_download(base_path, branch, xml, config):
     if config:
         print('\nDownloading translations from Crowdin (custom config)')
@@ -406,13 +392,6 @@ def local_download(base_path, branch, xml, config):
                    '--config=%s/config/%s.yaml' % (_DIR, branch),
                    'download', '--branch=%s' % branch])
 
-        print('\nDownloading GZOSP translations from Crowdin '
-              '(AOSP supported languages)')
-        check_run(['java', '-jar', '/usr/local/bin/crowdin-cli.jar',
-                   '--config=%s/config/%s_gzosp.yaml' % (_DIR, branch),
-                   'download', '--branch=%s' % branch])
-
-
 def download_crowdin(base_path, branch, xml, username, config):
     local_download(base_path, branch, xml, config)
 
@@ -422,8 +401,7 @@ def download_crowdin(base_path, branch, xml, username, config):
     if config:
         files = [('%s/config/%s' % (_DIR, config))]
     else:
-        files = [('%s/config/%s.yaml' % (_DIR, branch)),
-                 ('%s/config/%s_gzosp.yaml' % (_DIR, branch))]
+        files = [('%s/config/%s.yaml' % (_DIR, branch))]
     for c in files:
         cmd = ['java', '-jar', '/usr/local/bin/crowdin-cli.jar',
                '--config=%s' % c, 'list', 'project', '--branch=%s' % branch]
@@ -513,21 +491,16 @@ def main():
     if xml_extra is None:
         sys.exit(1)
 
-    xml_gzosp = load_xml(x='%s/platform_manifest/gzosp_default.xml' % base_path)
-    if xml_gzosp is None:
-        sys.exit(1)
-
-    xml_aicp = load_xml(x='%s/platform_manifest/aicp_default.xml' % base_path)
+    xml_aicp = load_xml(x='%s/platform_manifest/aicp-default.xml' % base_path)
     if xml_aicp is not None:
         xml_files = (xml_default, xml_aicp, xml_extra)
     else:
-        xml_files = (xml_default, xml_extra, xml_gzosp)
+        xml_files = (xml_default, xml_extra)
 
     if args.config:
         files = [('%s/config/%s' % (_DIR, args.config))]
     else:
-        files = [('%s/config/%s.yaml' % (_DIR, default_branch)),
-                 ('%s/config/%s_gzosp.yaml' % (_DIR, default_branch))]
+        files = [('%s/config/%s.yaml' % (_DIR, default_branch))]
     if not check_files(files):
         sys.exit(1)
 
