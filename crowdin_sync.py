@@ -487,15 +487,19 @@ def main():
     if xml_default is None:
         sys.exit(1)
 
+    xml_aosp = load_xml(x='%s/platform_manifest/aicp-aosp.xml' % base_path)
+    if xml_aosp is None:
+        sys.exit(1)
+
     xml_extra = load_xml(x='%s/config/%s_extra_packages.xml' % (_DIR, default_branch))
     if xml_extra is None:
         sys.exit(1)
 
     xml_aicp = load_xml(x='%s/platform_manifest/aicp-default.xml' % base_path)
     if xml_aicp is not None:
-        xml_files = (xml_default, xml_aicp, xml_extra)
+        xml_files = (xml_default, xml_aosp, xml_aicp, xml_extra)
     else:
-        xml_files = (xml_default, xml_extra)
+        xml_files = (xml_default, xml_aosp, xml_extra)
 
     if args.config:
         files = [('%s/config/%s' % (_DIR, args.config))]
